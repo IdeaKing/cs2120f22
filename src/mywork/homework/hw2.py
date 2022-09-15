@@ -10,17 +10,22 @@ def main():
         """
         solver = Solver()
         solver.add(Not(proposition))
-        return solver.check() == unsat
+        if solver.check() == unsat:
+            return "valid"
+        else:
+            return "unvalid"
 
 
     def disjunct():
         """
-        1. (X or Y) and X entails Y.
+        1. (X or Y) and X entails Not Y.
         If X or Y is true then X entails not Y.
         Not a valid rule of reasoning.
+            X and Y can both be true and X would not entail not Y.
+            I think that coffee is good or soda is good. But if I think that coffee is good, that doesn't mean that soda isn't good.
         """
         x, y = Bools("x y")
-        return Implies(And(Or(x, y), x), Not(y))
+        return And(And(x, y), Implies(x, Not(y)))
 
 
     def and_introduction():
@@ -97,8 +102,10 @@ def main():
     def denying_the_antecedent():
         """
         9. X implies Y, Not X entails Not Y
-        If X is True, then Y is True and if Not X is True, then Not Y is True
+        If X implies Y, then Y is True only if X is True.
         Not Valid.
+            If X is True and Y is False, then Not X doesn't entail Not Y.
+            If coffee is good and sode is good, but soda can be good if coffe is not good.
         """
         x, y = Bools("x y")
         return Implies(And(Implies(x, y), Not(x)), Not(y))
@@ -137,18 +144,21 @@ def main():
     def or_elimination():
         """
         13. X or Y, X implies Z, Y implies Z entails Z
-        If X is True or Y is True and if X is True then Z is True then if Y is True, then z is true 
-        Not valid
+        If X is True or Y is True and if X and Y imply Z, then z is true 
+        Valid
         """
         x, y, z = Bools("x y z")
-        return Implies(And(Or(x, y), Implies(x, z)), Implies(Implies(y, z), z))
+        # return And(Or(x, y), Implies(x, z), Implies(Implies(y, z), z))
+        return Implies(And(Or(x, y), Implies(x, z), Implies(y, z)), z)
 
     #
     def affirmation_the_conclusion():
         """
         14. X implies Y, Y entails X
-        If X is True, Y is True and if Y is True then X is True
+        If X implies Y, and Y is True, then X must be True.
         Not Valid
+            If I like playing video games and I like youtube, 
+            but I can like youtube and not video games.
         """
         x, y = Bools("x y")
         return Implies(And(Implies(x, y), y), x)
@@ -168,7 +178,7 @@ def main():
         """
         16. X implies Y, Y implies Z entails X implies Z
         If X is True, then Y is True, and if Y is True then Z is True, if that is True, then X is True, if that is True, then is Z is True
-        Not Valid
+        Valid
         """
         x, y, z = Bools("x y z")
         return Implies(And(Implies(x, y), Implies(y, z)), Implies(x, z))
@@ -177,11 +187,12 @@ def main():
     def converse():
         """
         17. X implies Y entails Y implies X
-        If X is true then y is true, if y is true, then y is true, then x is true
-        Valid
+        If X implies Y, then Y must imply X.
+        Not Valid
+            If soda is good then I am happy. But if I am happy soda doesn't have to be good.
         """
         x, y = Bools("x y")
-        return Implies(x, Implies(y, Implies(y, x)))
+        return Implies(Implies(x, y), Implies(y, x))
 
 
     def contrapositive():
