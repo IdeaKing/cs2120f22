@@ -93,7 +93,7 @@ def main():
         x, y = Bools("x y")
         return Implies(y, Or(x, y))
 
-
+    #
     def denying_the_antecedent():
         """
         9. X implies Y, Not X entails Not Y
@@ -101,7 +101,7 @@ def main():
         Not Valid.
         """
         x, y = Bools("x y")
-        return And(Implies(x, y), Implies(Not(x), Not(y)))
+        return Implies(And(Implies(x, y), Not(x)), Not(y))
 
 
     def iff_introduction():
@@ -141,9 +141,9 @@ def main():
         Not valid
         """
         x, y, z = Bools("x y z")
-        return And(And(Or(x, y), Implies(x, z)), Implies(Implies(y, z), z))
+        return Implies(And(Or(x, y), Implies(x, z)), Implies(Implies(y, z), z))
 
-
+    #
     def affirmation_the_conclusion():
         """
         14. X implies Y, Y entails X
@@ -151,9 +151,9 @@ def main():
         Not Valid
         """
         x, y = Bools("x y")
-        return And(Implies(x, y), Implies(y, x))
+        return Implies(And(Implies(x, y), y), x)
 
-
+    #
     def arrow_elimination():
         """
         15. X implies Y, X entails Y
@@ -161,9 +161,9 @@ def main():
         Valid
         """
         x, y = Bools("x y")
-        return And(Implies(x, y), Implies(x, y))
+        return Implies(And(Implies(x, y), x), y)
 
-
+    #
     def transitivity_of_arrow():
         """
         16. X implies Y, Y implies Z entails X implies Z
@@ -171,7 +171,7 @@ def main():
         Not Valid
         """
         x, y, z = Bools("x y z")
-        return And(Implies(x, y), Implies(y, Implies(z, Implies(x, z))))
+        return Implies(And(Implies(x, y), Implies(y, z)), Implies(x, z))
 
 
     def converse():
