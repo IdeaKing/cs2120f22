@@ -19,8 +19,13 @@ there is no such valid inference rule.
 If a ball, b, is round *and* b is also red, is b red?
 
 A: yes/no: 
+  yes
 
 B: Why? 
+  And elimination right rule; if b is an arbitrary but specific ball, 
+  and b is round and red, b must be red too. 
+
+  ∀ (b: Prop), isRound b ∧ isRed b -> isRed b
 
 
 #1B
@@ -30,24 +35,43 @@ and I give you flowers *or* I give you chocolates, will
 you be happy?
 
 A: yes/no: 
+  yes
 
-B: Why?
+B: Why? 
+  Or elimination rule. Either the flowers or the chocolates 
+  will make you happy, thus, recieving either the flowers or the 
+  chocolates will make you happy. Futhermore, the "and" in the 
+  question is not inclusive, where it is required for both flowers
+  and chocolates to make one happy.
+
+  ∀ (f, c, h: Prop), (f ∨ c) → (f → h) → (c → h) → h
 
 
 #1C: If giraffes are just zebras in disguise, then the 
 moon is made of green cheese?
 
-A. yes/: 
+A. yes/no: 
+  yes
 
-B. Why?
+B. Why? 
+  False elimination, if we assume that the false proposition is true, 
+  then any other proposition is true. Eplicitly, if giraffes are 
+  zebras in stripes is true, than anything can be true, because from
+  a false proposition, anything goes.
+
+∀ (g, m : Prop), g → m
 
 
 #1D. If x = y implies that 0 = 1, then is it true that
 x ≠ y?
 
 A. yes/no: 
+  no
 
-B. Why?
+B. Why? 
+  There is no such rule valid inference rule. If we assume x = y to be true
+  and 0 = 1, 0 does not equal 1 so it is false, and true can not imply false,
+  thus this is not possible.
 
 
 
@@ -55,24 +79,37 @@ B. Why?
 Zoe has stripes.
 
 A. yes/no: 
+  yes
 
 B. Why?
+  Implication introduction rule. If all zebras have stripes, and 
+  Zoe is an arbitrary but specific zebra, zoe must have stripes
+  because zoe is a zebra. 
+
+
 
 
 #1F. If Z could be *any* Zebra and Z has stripes, then 
 *every* Zebra has stripes.
 
 A. Yes/no: 
+  yes
 
 B: Why?
+  [Forgot the rule]. If an arbitrary but specific zebra Z has stripes,
+  then it must be the case that every and all zebras have stripes.
 
 
 #1G. If whenever the wind blows, the leaves move, and 
 the leaves are moving, then the wind is blowing.
 
 A. yes/no: 
+  no
 
 B. Why? 
+  There is no such valid inference rule. If the wind blows is 
+  true implies the leaves move is true, but it the leaves move is true,
+  it doesn't necessarily imply that the wind is blowing.
 
 
 #1H: If Gina is nice *or* Gina is tall, and Gina is nice,
@@ -80,8 +117,15 @@ then Gina is not tall. (The "or" here is understood to be
 the or of predicate logic.)
 
 A. yes/no: 
+  no
+
 
 B. Why?
+  There is no such valid inference rule, gina could be nice and tall
+  but it would not imply that she is not tall on the premise that she
+  is nice.
+
+  ∀ (g : Prop), (isNice g ∨ isTall g ) ∧ isNice g → ¬isTall g
 -/
 
 
@@ -95,8 +139,13 @@ logic: X ∨ ¬Y.
 #2A: Is is satisfiable? If so, give a model (a binding of 
 the variables to values that makes the expressions true).
 
+  It is satisfiable. If X is true and Y is false, it would be True.
+
 
 #2B: Is it valid? Explain your answer. 
+
+  It is not valid, because there are cases where it isn't satisfiable;
+  for instance, when X is false and is true.
 
 
 -/
@@ -113,8 +162,7 @@ true if and only if Q is true) then if P is true then Q is
 true.
 -/
 
-#check _
-
+#check ∀ (p, q : Prop), p ↔ q → p → q 
 
 
 /-
@@ -128,7 +176,10 @@ be ignored here.
 #check ∀ (n m : ℕ), n < m → m - n > 0
 
 /-
-Answer:
+Answer: 
+  If n and m are any natural numbers, if n is 
+  less than m is true, then m minus n will always
+  be greater than 0.
 -/
 
 -- B
@@ -137,6 +188,8 @@ Answer:
 
 /-
 Answer:
+  There exists some natural number n and for all natural number m
+  where m is greater than or equal to n is true.
 -/
 
 
@@ -147,6 +200,7 @@ variables (isEven: ℕ → Prop) (isOdd: ℕ → Prop)
 
 /-
 Answer:
+  For all propositions n, n is even or n is odd is true.
 -/
 
 
@@ -155,7 +209,8 @@ Answer:
 #check ∀ (P : Prop), P ∨ ¬P
 
 /-
-Answer:
+Answer: 
+  For all propositions P, P or not P is true.
 -/
 
 
@@ -165,6 +220,7 @@ Answer:
 
 /-
 Answer:
+  For all propositions P, P or not P is true.
 -/
 
 
@@ -190,4 +246,11 @@ variable contagion :
   (closeContact : Animal → Animal → Prop), 
   hasVirus a1 → closeContact a1 a2 → hasVirus a2
 
+/- 
+Answer:
+  If it is true that an animal "a1" has a virus, and then 
+  it is true that it is in close contact with another animal "a2", 
+  then "a2" it is true that a2 has a virus.
+
+-/
 

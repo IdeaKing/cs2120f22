@@ -464,7 +464,7 @@ complete the following definition.
 -- there is no proof of false
 -- false by definition means that there is no proof
 -- no introduction rule for false
-theorem a_proof_of_false : false := _ -- theres no way to finish this line
+-- theorem a_proof_of_false : false := _ -- theres no way to finish this line
 -- from false anything goes
 /-
 Now we get to the most interesting and important rule:
@@ -510,14 +510,15 @@ def p8 : Prop := ∀ (P : Prop), false → P
 -- from a proof of false, you can prove that anything is true
 -- whenever you derive a contradiction, anything goes
 -- if false is true then whether a prop p is true or false it is true
-
+-- case analysis on a proof of false
+-- case analysis on false elimination 
 theorem p8_is_true : p8 :=
 begin
-unfold p8,
-assume P,
--- to prove any implication, start that x is true, and in that context that y is true
-assume f,
-apply false.elim f,
+  unfold p8,
+  assume P,
+  -- to prove any implication, start that x is true, and in that context that y is true
+  assume f,
+  apply false.elim f,
 end
 
 -- assume that prop p applies apply false elim to f and assume p is true
@@ -529,7 +530,12 @@ proofs to help.
 -/
 
 -- def p1 : Prop := false \implies false
-
+theorem p1_is_true : p1 :=
+begin
+  unfold p1,
+  assume f,
+  apply false.elim f,
+end
 
 example : p1 := 
 begin
@@ -556,6 +562,7 @@ example : p4 :=
 begin
 unfold p4,
 assume t,
+-- there is no proof of false so you are stuck
 end
 
 example : p5 := 
@@ -627,7 +634,7 @@ def not_ (X : Prop) := X → false  -- the definition of "not" (¬)
 /-
 Examples
 -/
-
+-- ¬(0=1)
 example : 0 = 1 → false :=
 begin
 assume h,   -- suppose 0 = 1
