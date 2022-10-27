@@ -154,6 +154,26 @@ different values or combinations of argument values.
 
 def my_bool_and : bool → bool → bool 
 | tt tt := tt
+| tt ff := ff
+| ff tt := ff
+| ff ff := ff
+
+def my_bool_and2 : bool → bool → bool 
+| tt tt := tt
+| _ _ := ff
+
+def my_bool_or : bool → bool → bool
+| ff ff := ff
+| _ _ := tt
+
+def my_bool_not : bool → bool
+| tt := ff
+| ff := tt
+
+example : my_bool_not tt = tt := rfl
+example : my_bool_not ff = tt := rfl
+
+-- factorial recursive equation
 
 /-
 Functions in Lean must be "total," which means that
@@ -168,6 +188,11 @@ function!
 #eval my_bool_and ff tt
 #eval my_bool_and ff ff
 
+example : my_bool_and tt tt = tt := rfl
+example : my_bool_and tt ff = ff := rfl
+example : my_bool_and ff tt = ff := rfl
+example : my_bool_and ff ff = ff := rfl
+
 
 /-
 You should (almost must) use this "by cases" syntax
@@ -181,11 +206,55 @@ def factorial' (n : ℕ) : ℕ :=
   then 1 
   else n * factorial' (n-1)      -- factorial not defined
 
+
+-- allows for recursion
+-- a function will return a value no matter what
+-- value you give it
+-- lean cant prove termination when recursive calls
+-- is passed f n
 def factorial : ℕ → ℕ           -- remember, no := here
 | 0 := 1
 | (n + 1) := (n + 1) * factorial n
 
 #eval factorial 5
+
+
+/-- Existis --/
+-- we call an example a witness that a proposition is true
+-- we need a witness and a proof that the witness satisfies the proposition
+-- any witness will do as long as it satisfies the predicate
+example : ∃ (n : ℕ), isEven n :=
+  exists.intro 2 rfl
+
+-- a proof of an ∃ proposition is called an dependednt parent
+-- the type of the second element depends on the falue of the first element
+-- dependent pairs
+-- <witness>, <proof that witness satisfies predicate>
+-- <8, rfl> is a proof of ∃ (n : ℕ), isEven n
+
+example : (∃ (n : ℕ), isEven n) → true :=
+begin
+  assume h,
+  cases h with w pf,
+  -- there is some number out there that there is a proof of even
+  -- there is some number exists that there is a proof of even
+  -- i get a proof that there is a natural out there that is even
+  -- it forgets that there is a specific example in the case of 8
+  -- those particular details are forgotten, an information hiding construct
+end
+
+
+variables (Ball : Type)
+          (isBlue : Ball → Prop ) 
+          (isRound : Ball → Prop)
+          (b : Ball)
+          (b_blue : isBlue b)
+          (b_round : isRound b)
+
+example : ∃ (a_ball : Ball), isBlue a_ball :=
+
+exists.intro b b_blue
+
 
 -- ∃
 def exists_intro := ∀ {P : X → Prop} (w : X), P w → (∃ (x : X), P x) 

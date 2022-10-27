@@ -112,13 +112,13 @@
   
   -- NOT
     #check @classical.by_contradiction  -- ∀ {p : Prop}, (¬p → false) → p
-
+    #check @classical.em                -- ∀ (p : Prop), p ∨ ¬p
   -- IFF
     #check @iff.intro     -- ∀ {a b : Prop}, (a → b) → (b → a) → (a ↔ b)
     #check @iff.mp        -- ∀ {a b : Prop}, (a ↔ b) → a → b
     #check @iff.mpr       -- ∀ {a b : Prop}, (a ↔ b) → b → a
 
-   FORALL ARROW
+  -- FORALL ARROW
     Rather, you prove a forall or arrow proposition by 
     *defining a function* that takes a value/proof of the 
     premise/argument and that returns a value/proof of the 
@@ -128,21 +128,52 @@
 -/
 
 /-
-***Constructive logic V First order logic***
+***Constructive logic V First order logic (Classical Logic) V Propositional Logic***
   Constructive logic:
     0. We can construct rules of logic naturally.
     1. Can quantify over types, predicates, and functions
-    2. We can treat proofs as functions
+    2. Propositions are treated as *types*
+      Proofs are treated as *values* of those types
+      Every object and expression has a type
+    3. We can treat proofs as functions
       A proof can be taken as a function with *n* amount of input 
       propositions.
       Proofs are computational.
+    4. We can judge a proposition to be true if we contain a 
+    *proof* of it on hand. 
+      Treats proofs as mathematical objects.
+      For a given proposition, P, the proof judgment (p : P)
+      asserts that p is a proof of P.
   First order logic:
     1. Can not quantify over types, predicates, and functions
-    2. 
+      Can quantify over objects only.
+    2. A variable is only bound to true or false. 
+      Take boolean truth judgments as inputs and yield new truth 
+      judgments as outputs.
+        (X : true), (Y : true) ⊢ (X ∧ Y)
+  Propositional logic:
+    1. A variable is only bound to true or false
+    2. Law of the excluded middle is valid
+    3. Connectives are treated as boolean functions
+      They combine the truth values of the propositions they 
+      connect to produce a new truth value for more complex
+      propositions.
+    4. There are *NO TYPES*; there is only one type : Object. 
+      Instead of using types, predicates are used. 
 -/
 
 /- 
 ***Inference Rules:***
+
+**Using Inference Rules:**
+  Using Inference Rules Forwards:
+    If we're given <proofs/truths> of the premises, we can 
+    apply the rule to obtain a proof of the conclusion.
+  Using Inference Rules Backwards:
+    If we want to prove the <conclusion> then *it will suffice*
+    to have such and such arguments.
+  When we do not provide all arguments:
+    We must prove the missing arguments through sub-goals. 
 
 **And:**
   And Introduction:
@@ -196,6 +227,10 @@
     In Lean:
       ∀ (x : X), Y && X → Y is the same
       From any proof of X, we can derive a proof of Y.
+    
+    **Proving Implications**
+      If I want to prove that X → Y, I must assume that X is 
+      true, and then in that context I must show that Y is true.
 
   Arrow Elimination:
     def arrow_elim := (X → Y) → X → Y
