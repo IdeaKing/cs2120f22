@@ -96,7 +96,7 @@ n to be a multiple of m? There has to be some
 other number involved, right?
 -/
 
-def multiple_of (n m : ℕ) := ∃ (k), n = m * k
+def multiple_of (n m : ℕ) := ∃ (k), n = m * k  
 
 /- #2B
 
@@ -204,9 +204,15 @@ has to be. Also, be sure to use multiple_of in
 formally stating the proposition to be proved.
 -/
 
-example : multiple_of :=
+example : ∀ (x : ℕ), multiple_of x 6 → multiple_of x 3 :=
 begin
-_
+  assume x,
+  assume h,
+  unfold multiple_of at h,
+  cases h with k hk,
+  apply exists.intro (2 * k),
+  rw hk,
+  ring,
 end 
 
 
@@ -230,9 +236,18 @@ that you can replace equals by equals without
 changing the truth values of propositions. 
 -/
 
-example (n h k : ℕ) : _ :=
+example (n h k : ℕ) : multiple_of n h → multiple_of h k → multiple_of n k :=
 begin
-_
+  assume n_h,
+  assume h_k,
+  unfold multiple_of at n_h,
+  unfold multiple_of at h_k,
+  cases n_h with n_k n_hk,
+  cases h_k with h_k hk,
+  apply exists.intro (n_k * h_k),
+  rw n_hk,
+  rw hk,
+  ring,
 end
 
 
@@ -256,9 +271,12 @@ example
   (isCool : Person → Prop)
   (LogicMakesCool : ∀ (p), KnowsLogic p → isCool p)
   (SomeoneKnowsLogic : ∃ (p), KnowsLogic p) :
-  (isCool) :=
+  (∃ p, isCool p) :=
 begin
-
+  apply exists.elim SomeoneKnowsLogic,
+  assume p p_knows_logic,
+  apply exists.intro p,
+  apply LogicMakesCool p p_knows_logic,
 end
 
 
@@ -271,10 +289,15 @@ someone is not happy then not everyone is happy.
 example 
   (Person : Type)
   (Happy : Person → Prop) :
-  _
+  (∃ p, ¬ Happy p) → ¬ (∀ p, Happy p)
   :=
 begin
-  _
+  assume h,
+  assume h2,
+  apply exists.elim h,
+  assume p p_not_happy,
+  apply p_not_happy,
+  apply h2 p,
 end
 
 /- #3C
@@ -297,9 +320,24 @@ your set of assumptions.
 example 
   (α : Type)
   (P : α → Prop) :
-  _ :=
+  (∀ x, P x) ↔ ¬ (∃ x, ¬ P x)
+  :=
 begin
-end 
+  apply iff.intro,
+  assume h,
+  assume h2,
+  apply exists.elim h2,
+  assume x x_not_p,
+  apply x_not_p,
+  apply h x,
+  assume h,
+  assume x,
+  apply classical.by_contradiction,
+  assume x_not_p,
+  apply h,
+  apply exists.intro x,
+  apply x_not_p,
+end
 
 
 
@@ -316,9 +354,15 @@ taking objects of that type.
 example 
   (T : Type)
   (P : T → Prop) :
-  _ :=
+  ¬ (∃ x, P x) → ∀ x, ¬ P x
+  :=
 begin
-_
+  assume h,
+  assume x,
+  assume x_p,
+  apply h,
+  apply exists.intro x,
+  apply x_p,
 end
 
 
@@ -334,7 +378,20 @@ example
   (α : Type)
   (P : α → Prop)
   (Q : α → Prop): 
-  _ :=
+  (∃ x, P x ∨ Q x) → (∃ x, P x) ∨ (∃ x, Q x)
+  :=
 begin
+  assume h,
+  apply exists.elim h,
+  assume x x_p_or_q,
+  apply or.elim x_p_or_q,
+  assume x_p,
+  apply or.intro_left,
+  apply exists.intro x,
+  apply x_p,
+  assume x_q,
+  apply or.intro_right,
+  apply exists.intro x,
+  apply x_q,
 end
 
