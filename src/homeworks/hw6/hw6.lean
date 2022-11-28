@@ -21,6 +21,9 @@ n > 0 (i.e., n = n' + 1 = (nat.succ n') for some n').
 
 -- Answer
 
+def isZero (n : ℕ) : bool := 
+  by cases n; exact ff
+
 
 -- These test cases should pass except the last 
 example : isZero 0 = tt := rfl
