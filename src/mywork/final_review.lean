@@ -1,0 +1,100 @@
+import data.set
+
+/-
+- existence propositions and proofs
+  -- introduction rule
+  -- elimination rule
+  -- proofs involving existence
+  -- mixed quantififier propositions
+
+- set theory
+  -- membership predicates
+  -- set operations and notations
+    - membership, ∈ 
+    - intersection, ∩ 
+      -- satisfies both of the predicates
+      -- "x is in A and x is in B"
+      -- A x ∧ B x
+    - union, ∪ 
+      -- satisfies at least one of the predicates
+      -- "x is in A or x is in B"
+      -- A x ∨ B x
+    - complement, ᶜ
+      -- everything of the same kind that is not in the set
+      -- "x is not in A"
+      -- ¬ A x
+    - difference, \
+      -- everything of the same kind that is in A but not in B
+      -- "x is in A but not in B"
+      -- A x ∧ ¬ B x
+    - subset relation, ⊆, ⊂ 
+      -- Equal subsets
+        -- When both A and B are subsets of each other
+      -- Proper Subset = ⊆
+        -- Not subsets of each other
+        -- ∀ A, x ∈ A → x ∈ B ∧ ∃x ∈ B → x ∉ A
+      -- Strict Subset = ⊂ 
+      -- for all elements X, if x is in A, then x is in B
+      -- ∀ x, x ∈ A → x ∈ B
+    -- powerset 𝒫 (the set of all subsets of a given set)
+      -- The set of all subsets of a given set
+        -- inlcudes the Null Set
+        -- 2ⁿ, n = number of elements
+          -- induction
+            -- property of set a, is that |𝒫 A| = 2ᴬ 
+            -- proposition ∀ n, |A| = n → |𝒫 A| = 2ⁿ
+            -- induction 
+              -- show that property 1 is true for n = 0
+                -- Q 0
+              -- show that if property 1 is true for n, then it is true for n + 1
+                -- ∀ n', Q n' → Q^(n' + 1)
+      -- 𝒫 A = { B | B ⊆ A }
+  -- propositions and proofs
+
+  - relations
+  -- membership predicates (on pairs of values)
+    -- a set of pairs defined by a membership predicate
+    -- a relation is a set of pairs
+  -- domain, domain of definition, co-domain, range
+    -- domain
+      -- set a
+    -- co-domain
+      -- set b
+    -- domain of definition
+      -- subset of a
+    -- range
+      -- subset of b
+      -- equal to the codomain 
+  -- properties of relations
+    - single-valuedness (functionality)
+    - reflexivity
+      -- **every element** in the domain is related to itself
+      -- ∀ x, x ∈ A → r x x
+    - symmetry
+      -- for all a and b, **if** a is related to b, then b is related to a
+        -- not every element
+      -- ∀ x, ∀ y, r x y → r y x
+    - transitivity
+      -- for all a, b, and c, **if** a is related to b and b is related to c, then a is related to c
+        -- not every element
+      -- ∀ x, ∀ y, ∀ z, r x y ∧ r y z → r x z
+    - equivalence
+    - asymmetry
+    - anti-symmetry
+  -- properties of functions
+    -- surjectivity
+    -- injectivity
+      -- one-to-one
+      -- r a x ∧ r b x → a = b
+    -- bijectivity
+    -- single-valuedness (functionality)
+      -- I cannot have an element in the domain that has two outputs
+      -- r x y ∧ r x z → y = z
+
+  - induction
+    -- inductive data definitions
+    -- induction axioms (for enumerated types and ℕ)
+    -- definition of recursive functions
+    -- construction of proofs by induction
+
+-/
