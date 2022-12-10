@@ -63,3 +63,22 @@ above. That is, define isOdd, the predicate, and then odds,
 the set, separately. Then state and prove the propositions, 
 2 ∉ odds, and 3 ∈ odds. (Use example.)
 -/
+
+def isOdd : ℕ → Prop := fun n, n % 2 = 1
+def odds := { n | isOdd n }
+
+example : 2 ∉ odds :=
+begin
+  unfold odds,
+  unfold isOdd,
+  simp,
+  exact dec_trivial,
+end
+
+example : 3 ∈ odds :=
+begin
+  unfold odds,
+  unfold isOdd,
+  simp,
+  exact dec_trivial,
+end

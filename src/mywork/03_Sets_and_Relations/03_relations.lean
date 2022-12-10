@@ -73,6 +73,53 @@ b2, if and only if the pair, (b1,b2), is "in" the
 negation relation.   
 -/
 
+example : ∀ (b1 b2 : bool), 
+  negation b1 b2 ↔ bnot b1 = b2 
+  :=
+begin
+  assume b1 b2,
+  split,
+
+  -- forwards
+  assume h,
+  cases b1,
+  cases b2,
+
+  -- ff ff
+  cases h,
+
+  -- tt ff
+  cases h,
+  exact rfl,
+
+  -- ff tt
+  cases b2,
+  cases h,
+
+  -- tt tt
+  exact rfl,
+  cases h,
+
+  -- backwards
+  assume h,
+  cases b1,
+  cases b2,
+
+  -- ff ff
+  cases h,
+
+  -- tt ff
+  cases h,
+  unfold negation,
+
+  -- ff tt
+  cases b2,
+  cases h,
+  unfold negation,
+
+  -- tt tt
+  cases h,
+end
 
 example : ∀ (b1 b2), negation b1 b2 ↔ bnot b1 = b2 :=
 begin

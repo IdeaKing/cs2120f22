@@ -1,4 +1,3 @@
-
 import logic.relation
 
 namespace hidden 

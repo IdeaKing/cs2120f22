@@ -24,8 +24,8 @@ State and prove the proposition that there's some
 natural number whose square is 144.
 -/
 
-example : _ := _
-
+example : ∃ (n: ℕ), n*n=144 := 
+  exists.intro 12 rfl
 
 /- #1B.
 State and prove the proposition that there is 
@@ -35,7 +35,8 @@ for string.append, the function for gluing two
 strings together into one.
 -/
 
-example : _ := _
+example : ∃ (s : string), s ++ "!" = "I love logic!" := 
+  exists.intro "I love logic" rfl
 
 /- #1C.
 
@@ -46,8 +47,12 @@ takes just one witness as a time, so you will
 have to apply it more than once.
 -/
 
-example : _ :=
+example : ∃ (x y z : ℕ), x*x + y*y = z*z :=
 begin
+  apply exists.intro 3,
+  apply exists.intro 4,
+  apply exists.intro 5,
+  refl,
 end
 
 /- #1D
@@ -56,7 +61,7 @@ three natural number arguments, x, y, and z,
 yielding the proposition that x*x + y*y = z*z.
 -/
 
-def pythag_triple (x y z : ℕ) := _
+def pythag_triple (x y z : ℕ) := x*x + y*y = z*z
 
 /- #1E
 State the propositionthat there exist x, y, z, 
@@ -64,9 +69,13 @@ natural numbers, that satisfy the pythag_triple,
 predicate, then prove it. (Use "example : ...")
 -/
 
-example : _  :=
+example : ∃ (x y z : ℕ), pythag_triple x y z :=
 begin
-_
+  apply exists.intro 3,
+  apply exists.intro 4,
+  apply exists.intro 5,
+  unfold pythag_triple,
+  ring,
 end
 
 /- #2A
@@ -185,9 +194,15 @@ has to be. Also, be sure to use multiple_of in
 formally stating the proposition to be proved.
 -/
 
-example : _ :=
+example : ∀ (n : ℕ), multiple_of n 6 → multiple_of n 3 :=
 begin
-_
+  assume n,
+  assume n_implies_6,
+  -- unfold multiple_of at n_implies_6,
+  cases n_implies_6 with k pf,
+  rw pf,
+  apply exists.intro (2 * k) _,
+  ring,
 end 
 
 
@@ -211,9 +226,16 @@ that you can replace equals by equals without
 changing the truth values of propositions. 
 -/
 
-example (n h k : ℕ) : _ :=
+example (n h k : ℕ) : multiple_of n h ∧ multiple_of h k → multiple_of n k :=
 begin
-_
+  assume n_h_k,
+  cases n_h_k with n_implies_h h_implies_k,
+  cases n_implies_h with m pf1,
+  cases h_implies_k with l pf2,
+  rw pf1,
+  rw pf2,
+  apply exists.intro (m * l) _,
+  ring,
 end
 
 
@@ -237,9 +259,13 @@ example
   (isCool : Person → Prop)
   (LogicMakesCool : ∀ (p), KnowsLogic p → isCool p)
   (SomeoneKnowsLogic : ∃ (p), KnowsLogic p) :
-  _ :=
+  ∃ (p), isCool p :=
 begin
-_
+  apply exists.elim SomeoneKnowsLogic,
+  assume p,
+  assume p_knows_logic,
+  apply exists.intro p _,
+  apply LogicMakesCool p p_knows_logic,
 end
 
 
