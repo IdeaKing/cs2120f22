@@ -277,7 +277,7 @@ of {0,1,2}.
 2. {0,1,2}                -- 8
 3. {0,1,2,3,4,5,6,7,8,9}  -- 1024
 4. { n | 0 ≤ n ∧ n < 30}  -- 2^30 + 1 = 1073741825
-5. 𝒫 {0,1,2}              -- 9
+5. 𝒫 {0,1,2}              -- 256
 -/
 
 
@@ -313,7 +313,7 @@ example : prod_to 4 = 24 := rfl
 What is the common name of this function?
 
 Answer: 
-  **Geometric function.**
+  **Factorial**
 
 -/
 
@@ -355,8 +355,7 @@ Answer:
 corresponds to the induction hypothesis.
 
 Answer: 
-  **(n + 1) is the inductive hypothesis. Smaller proofs**
-  **build to larger proofs.**
+  **We want to prove that we have P n. Or Pⁿ variables.**
 -/
 
 
@@ -536,9 +535,11 @@ Answer:
 Base case. 
   Given any motive of type tree α → Sort u_1, it 
   will suffice to show that the twig has the property P.
+  The property P is true for the twig.
 Inductive case. 
   Given any motive of type tree α → Sort u_1, it
   will suffice to show that the root has the property P.
+  The property P is true for the root.
 QED.
 -/
 
